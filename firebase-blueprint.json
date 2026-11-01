@@ -1,0 +1,177 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile representation in AI Creator Studio",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Unique Firebase Authentication UID"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's Google display name"
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address"
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "Profile picture URL"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["userId", "email"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "AI-generated or user-created software project",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique project identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner's user ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Project title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Project description or user prompt"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Target framework or platform (android, web, react, python, kotlin, video, ai)"
+        },
+        "status": {
+          "type": "string",
+          "description": "Generation status: ready, generating, draft"
+        },
+        "filesJson": {
+          "type": "string",
+          "description": "Serialized JSON string of project files"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "name", "platform"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Multi-AI chat session",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique conversation identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Conversation topic or title"
+        },
+        "providerId": {
+          "type": "string",
+          "description": "Primary AI provider (e.g. gemini, openai, claude, groq)"
+        },
+        "modelId": {
+          "type": "string",
+          "description": "Model identifier (e.g. gemini-3.8-flash)"
+        },
+        "lastMessage": {
+          "type": "string",
+          "description": "Snippet of latest message"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Individual chat message within a conversation",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "conversationId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "model", "system"]
+        },
+        "content": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["id", "conversationId", "userId", "role", "content"]
+    }
+  },
+  "firestore": {
+    "defaultRules": "denyAll",
+    "collections": {
+      "/users/{userId}": {
+        "entity": "User",
+        "description": "User profile document restricted to self"
+      },
+      "/users/{userId}/projects/{projectId}": {
+        "entity": "Project",
+        "description": "User projects restricted to self"
+      },
+      "/users/{userId}/conversations/{conversationId}": {
+        "entity": "Conversation",
+        "description": "User conversations restricted to self"
+      },
+      "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+        "entity": "Message",
+        "description": "Chat messages restricted to self"
+      }
+    }
+  }
+}

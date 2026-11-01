@@ -1,0 +1,6 @@
+{
+  "name": "AI Creator Studio",
+  "description": "All-in-one AI platform to connect multiple AI providers, build Android/Web apps, generate and debug code, and manage projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
